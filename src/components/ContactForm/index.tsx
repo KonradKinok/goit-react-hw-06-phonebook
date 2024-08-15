@@ -2,9 +2,12 @@ import React,{ useState, ChangeEvent, FormEvent } from "react";
 import PropTypes from "prop-types";
 import { nanoid } from 'nanoid'
 import scss from "./ContactForm.module.scss"
-
+import { useDispatch } from "react-redux";
+import { addContact } from "../redux/contactsSlice"
+import { useSelector } from "react-redux";
+import { getContacts } from "../redux/selectors";
+import {setStatusFilter} from "../redux/filtersSlice"
 interface Contact {
-  id: string;
   name: string;
   number: string;
 }
@@ -14,10 +17,12 @@ interface ContactFormProps {
   contacts: Contact[];
 }
 
-const ContactForm: React.FC<ContactFormProps> = ({ addContact, contacts }) => {
+const ContactForm: React.FC<ContactFormProps> = () => {
 
     const [contact, setContact] = useState({ name: "", number: "" });
-
+    const dispatch = useDispatch();
+    const contacts = useSelector(getContacts);
+    
     const handleChange = (ev: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = ev.currentTarget;
         setContact((prevValue) => ({
@@ -28,8 +33,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ addContact, contacts }) => {
 
     const handleSubmit = (ev: FormEvent<HTMLFormElement>) => {
         ev.preventDefault();
+        
         const newContact: Contact = {
-            id: nanoid(),
             name: contact.name,
             number: contact.number,
         };
@@ -45,8 +50,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ addContact, contacts }) => {
             return;
         }
 
-        addContact(newContact);
-        setContact({ name: "", number: "" });
+        dispatch(addContact(newContact.name,newContact.number));
     };
 
     const nameId = nanoid();

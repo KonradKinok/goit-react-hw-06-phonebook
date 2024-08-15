@@ -1,24 +1,21 @@
 import React from "react";
-import PropTypes from "prop-types";
 import SeparateContact from "../SeparateContact/index";
-
+import {  useSelector } from "react-redux";
+import { getContacts } from "../redux/selectors";
+import {getStatusFilter} from "../redux/selectors"
 interface Contact {
   id: string;
   name: string;
   number: string;
+  date: string;
 }
 
-interface ContactListProps {
-  contacts: Contact[];
-  filter: string;
-  onDelete: (id: string) => void;
-}
-
-const ContactList: React.FC<ContactListProps> = ({ contacts, filter, onDelete }) => {
-
-    const filteredContacts = contacts.filter((contact) =>
-        contact.name.toLowerCase().includes(filter.toLowerCase()),
-    );
+const ContactList: React.FC = () => {
+  const contacts = useSelector(getContacts);
+  const statusFilter = useSelector(getStatusFilter);
+  const filteredContacts = contacts.filter((contact:Contact) =>
+      contact.name.toLowerCase().includes(statusFilter.toLowerCase()),
+  );
 
     return (
         <div>
@@ -27,24 +24,11 @@ const ContactList: React.FC<ContactListProps> = ({ contacts, filter, onDelete })
                     <SeparateContact
                         key={contact.id}
                         contact={contact}
-                        onDelete={onDelete}
                     />
                 ))}
             </ul>
         </div>
     );
-};
-
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired,
-  filter: PropTypes.string.isRequired,
-  onDelete: PropTypes.func.isRequired,
 };
 
 export default ContactList;
