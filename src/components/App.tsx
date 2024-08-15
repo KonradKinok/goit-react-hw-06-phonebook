@@ -1,5 +1,5 @@
 import React from "react";
-function App() {
+function App(): React.ReactElement {
   return (
     <>
       <h1>React Homework Template</h1>
