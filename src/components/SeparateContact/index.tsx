@@ -21,13 +21,22 @@ const SeparateContact: React.FC<SeparateContactProps> =  ({ contact })=> {
 
     return (
       <li className={scss.containerContact} key={contact.id} >
-        <div><p>{contact.name}</p><p className={scss.data}>{globalFunctions.formatDateAndHour(contact.date)}</p></div>
-        <div > : {contact.number}</div>
-        <button
-          type="button"
-          onClick={handleDelete}>
-          Delete
-        </button>
+        <div className={scss.containerNameDate}>
+          <div>
+            <p>{contact.name}</p>
+            <p className={scss.data}>{globalFunctions.formatDateAndHour(contact.date)}</p>
+          </div>
+          <div >
+            <p>:{contact.number}</p>
+          </div>
+        </div>
+        <div >
+          <button
+            type="button"
+            onClick={handleDelete}>
+            Delete
+          </button>
+        </div>
       </li>
     );
 };
