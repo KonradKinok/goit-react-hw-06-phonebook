@@ -1,8 +1,9 @@
 import React from "react";
-import SeparateContact from "../SeparateContact/index";
 import {  useSelector } from "react-redux";
 import { getContacts } from "../redux/selectors";
 import {getStatusFilter} from "../redux/selectors"
+import SeparateContact from "../SeparateContact/index";
+
 interface Contact {
   id: string;
   name: string;
